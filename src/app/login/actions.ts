@@ -60,7 +60,7 @@ export async function login(prevState: any, formData: FormData) {
     };
   }
 
-  await createSession(testUser.id, rememberMe);
+  await createSession(user.id, user.name, user.email, user.role, rememberMe);
 
   // Jika remember me diaktifkan, dapat juga menyimpan email dalam cookie
   if (rememberMe) {

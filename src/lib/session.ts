@@ -1,18 +1,24 @@
 // src/lib/session.tsx
 import "server-only";
-import { SignJWT, jwtVerify } from "jose";
+import { SignJWT, jwtVerify, decodeJwt } from "jose";
 import { cookies } from "next/headers";
 
 const secretKey = process.env.NEXTAUTH_SECRET!;
 const encodedKey = new TextEncoder().encode(secretKey);
 
-type SessionPayload = {
+export type SessionPayload = {
   userId: string;
+  name: string;
+  email: string;
+  role: string;
   expiresAt: Date;
 };
 
 export async function createSession(
   userId: string,
+  name: string,
+  email: string,
+  role: string,
   rememberMe: boolean = false
 ) {
   const durationMs = rememberMe
@@ -20,7 +26,7 @@ export async function createSession(
     : 24 * 60 * 60 * 1000; // 1 hari
 
   const expiresAt = new Date(Date.now() + durationMs);
-  const session = await encrypt({ userId, expiresAt });
+  const session = await encrypt({ userId, name, email, role, expiresAt });
 
   const cookieStore = await cookies();
   cookieStore.set("session", session, {
@@ -53,3 +59,4 @@ export async function decrypt(session: string | undefined = "") {
     console.log("failed to verify session");
   }
 }
+

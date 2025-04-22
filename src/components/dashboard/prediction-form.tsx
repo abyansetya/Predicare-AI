@@ -1,6 +1,6 @@
 // components/PredictionForm.tsx
 import { useState, ChangeEvent, FormEvent } from "react";
-import { FormData } from "@/app/dashboard/page";
+import { FormData } from "@/components/dashboard/CostPredictionDashboard";
 
 interface PredictionFormProps {
   onPredict: (formData: FormData) => void;
@@ -84,7 +84,7 @@ export default function PredictionForm({ onPredict }: PredictionFormProps) {
             </label>
             <select
               id="icdPrimer"
-              className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              className="w-full rounded-md text-black p-2 border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
               value={formData.icdPrimer}
               onChange={handleChange}
             >
@@ -106,7 +106,7 @@ export default function PredictionForm({ onPredict }: PredictionFormProps) {
             </label>
             <select
               id="icdSekunder1"
-              className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              className="w-full text-black p-2 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
               value={formData.icdSekunder1}
               onChange={handleChange}
             >
@@ -128,7 +128,7 @@ export default function PredictionForm({ onPredict }: PredictionFormProps) {
             </label>
             <select
               id="icdSekunder2"
-              className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              className="w-full  rounded-md text-black p-2border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
               value={formData.icdSekunder2}
               onChange={handleChange}
             >
@@ -150,7 +150,7 @@ export default function PredictionForm({ onPredict }: PredictionFormProps) {
             </label>
             <select
               id="icdSekunder3"
-              className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              className="w-full text-black p-2 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
               value={formData.icdSekunder3}
               onChange={handleChange}
             >
@@ -172,7 +172,7 @@ export default function PredictionForm({ onPredict }: PredictionFormProps) {
             </label>
             <select
               id="lamaRawat"
-              className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              className="w-full text-black p-2 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
               value={formData.lamaRawat}
               onChange={handleChange}
             >
@@ -194,7 +194,7 @@ export default function PredictionForm({ onPredict }: PredictionFormProps) {
             </label>
             <select
               id="tipePasien"
-              className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              className="w-full text-black p-2 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
               value={formData.tipePasien}
               onChange={handleChange}
             >

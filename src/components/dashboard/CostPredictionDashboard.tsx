@@ -1,11 +1,10 @@
-// app/dashboard/page.tsx
 "use client";
 
 import { useState } from "react";
+import Header from "@/components/header";
 import PredictionForm from "@/components/dashboard/prediction-form";
 import ResultTable from "@/components/dashboard/result-table";
 
-// Definisi tipe untuk hasil prediksi
 export interface PredictionResults {
   administrasi: number;
   konsultasiDokter: number;
@@ -30,8 +29,7 @@ export interface FormData {
   lamaRawat: string;
   tipePasien: string;
 }
-
-export default function Dashboard() {
+export default function CostPredictionDashboard({ user }: { user: any }) {
   const [predictionResults, setPredictionResults] = useState<PredictionResults>(
     {
       administrasi: 250000,
@@ -50,16 +48,20 @@ export default function Dashboard() {
   );
 
   const handlePredict = (formData: FormData) => {
-    // Di sini nantinya akan ada logika untuk memanggil API prediksi
     console.log("Form Data for prediction:", formData);
-    // Untuk saat ini kita hanya menggunakan data dummy
-    // setPredictionResults(hasil dari API);
+    // TODO: Kirim ke API ONNX kamu dan update state dengan hasil response
   };
 
   return (
-    <>
-      <PredictionForm onPredict={handlePredict} />
-      <ResultTable results={predictionResults} />
-    </>
+    <div className="min-h-screen bg-gray-50">
+      <Header />
+      <main className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <p className="mb-4">
+          Selamat datang, <strong>{user.username}</strong>!
+        </p>
+        <PredictionForm onPredict={handlePredict} />
+        <ResultTable results={predictionResults} />
+      </main>
+    </div>
   );
 }

@@ -1,5 +1,5 @@
 // components/Header.tsx
-export default function Header() {
+export default function Header({ username }: { username?: string }) {
   return (
     <header className="bg-blue-600 shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -19,7 +19,7 @@ export default function Header() {
           </nav>
 
           <button className="bg-white text-blue-600 px-4 py-2 rounded font-medium">
-            User
+            {username}
           </button>
         </div>
       </div>

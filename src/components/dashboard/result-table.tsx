@@ -1,5 +1,5 @@
 // components/ResultTable.tsx
-import { PredictionResults } from "@/app/dashboard/page";
+import { PredictionResults } from "@/components/dashboard/CostPredictionDashboard";
 
 interface ResultTableProps {
   results: PredictionResults;

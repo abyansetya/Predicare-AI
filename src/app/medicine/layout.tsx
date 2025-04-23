@@ -30,7 +30,7 @@ export default async function DashboardLayout({
     }
     const username = typeof user?.name === "string" ? user.name : undefined;
 
-    // Redirect jika user tidak terautentikasi
+    //Redirect jika user tidak terautentikasi
     if (!user) {
       console.log("User not authenticated, redirecting to login");
       redirect("/login");

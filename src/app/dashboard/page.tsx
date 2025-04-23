@@ -32,8 +32,21 @@ export interface FormData {
 }
 
 export default function Dashboard() {
-  const [predictionResults, setPredictionResults] = useState<PredictionResults>(
-    {
+  const [predictionResults, setPredictionResults] =
+    useState<PredictionResults | null>(null);
+  const [submittedFormData, setSubmittedFormData] = useState<FormData | null>(
+    null
+  );
+
+  const handlePredict = (formData: FormData) => {
+    // Di sini nantinya akan ada logika untuk memanggil API prediksi
+    console.log("Form Data for prediction:", formData);
+
+    // Save the submitted form data
+    setSubmittedFormData(formData);
+
+    // Untuk saat ini kita hanya menggunakan data dummy
+    setPredictionResults({
       administrasi: 250000,
       konsultasiDokter: 750000,
       laboratorium: 1200000,
@@ -46,20 +59,21 @@ export default function Dashboard() {
       alatKesehatan: 750000,
       medicalCheckup: 650000,
       lainLain: 350000,
-    }
-  );
-
-  const handlePredict = (formData: FormData) => {
-    // Di sini nantinya akan ada logika untuk memanggil API prediksi
-    console.log("Form Data for prediction:", formData);
-    // Untuk saat ini kita hanya menggunakan data dummy
-    // setPredictionResults(hasil dari API);
+    });
   };
 
   return (
     <>
       <PredictionForm onPredict={handlePredict} />
-      <ResultTable results={predictionResults} />
+
+      {predictionResults && submittedFormData && (
+        <div className="mt-8 transition-all duration-300 ease-in-out">
+          <ResultTable
+            results={predictionResults}
+            formData={submittedFormData}
+          />
+        </div>
+      )}
     </>
   );
 }

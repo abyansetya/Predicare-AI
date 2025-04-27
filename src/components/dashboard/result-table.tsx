@@ -1,15 +1,14 @@
 // components/dashboard/result-table.tsx
-import { PredictionResults, FormData } from "@/app/dashboard/page";
+import { PredictResults, FormData } from "@/types/predict";
 
 interface ResultTableProps {
-  results: PredictionResults;
-  formData: FormData; // Add formData prop
+  results: PredictResults;
+  formData: FormData;
 }
 
 interface CostCategory {
-  id: keyof PredictionResults;
+  id: keyof PredictResults;
   label: string;
-  value: number;
 }
 
 export default function ResultTable({ results, formData }: ResultTableProps) {
@@ -22,42 +21,27 @@ export default function ResultTable({ results, formData }: ResultTableProps) {
     }).format(number);
   };
 
-  // Calculate total
-  const totalBiaya = Object.values(results).reduce(
-    (sum, value) => sum + value,
-    0
-  );
-
   // Data mapping for the table
   const costCategories: CostCategory[] = [
-    { id: "administrasi", label: "Administrasi", value: results.administrasi },
-    {
-      id: "konsultasiDokter",
-      label: "Konsultasi Dokter",
-      value: results.konsultasiDokter,
-    },
-    { id: "laboratorium", label: "Laboratorium", value: results.laboratorium },
-    { id: "radiologi", label: "Radiologi", value: results.radiologi },
-    { id: "obatObatan", label: "Obat-obatan", value: results.obatObatan },
-    { id: "kamarRawat", label: "Kamar Rawat", value: results.kamarRawat },
-    {
-      id: "tindakanMedis",
-      label: "Tindakan Medis",
-      value: results.tindakanMedis,
-    },
-    { id: "perawatan", label: "Perawatan", value: results.perawatan },
-    { id: "fisioterapi", label: "Fisioterapi", value: results.fisioterapi },
-    {
-      id: "alatKesehatan",
-      label: "Alat Kesehatan",
-      value: results.alatKesehatan,
-    },
-    {
-      id: "medicalCheckup",
-      label: "Medical Check-up",
-      value: results.medicalCheckup,
-    },
-    { id: "lainLain", label: "Lain-lain", value: results.lainLain },
+    { id: "non_Bedah", label: "Non Bedah" },
+    { id: "bedah", label: "Bedah" },
+    { id: "konsul_Dokter", label: "Konsultasi Dokter" },
+    { id: "konsul_Tenaga_Ahli", label: "Konsultasi Tenaga Ahli" },
+    { id: "tind_Keperawatan", label: "Tindakan Keperawatan" },
+    { id: "penunjang", label: "Penunjang" },
+    { id: "radiologi", label: "Radiologi" },
+    { id: "laboratorium", label: "Laboratorium" },
+    { id: "pelayanan_Darah", label: "Pelayanan Darah" },
+    { id: "rehabilitasi", label: "Rehabilitasi" },
+    { id: "akomodasi", label: "Akomodasi" },
+    { id: "akomodasi_Intensif", label: "Akomodasi Intensif" },
+    { id: "bmhp", label: "BMHP" },
+    { id: "alat_Medis", label: "Alat Medis" },
+    { id: "obat", label: "Obat" },
+    { id: "obat_Kronis", label: "Obat Kronis" },
+    { id: "obat_Kemoterapi", label: "Obat Kemoterapi" },
+    { id: "alkes", label: "Alkes" },
+    { id: "total_Cost", label: "Total Biaya" },
   ];
 
   return (
@@ -75,7 +59,7 @@ export default function ResultTable({ results, formData }: ResultTableProps) {
         </h4>
         <div className="grid grid-cols-1 text-black md:grid-cols-3 gap-4 text-sm">
           <div>
-            <span className="font-medium  ">ICD Primer:</span>{" "}
+            <span className="font-medium">ICD Primer:</span>{" "}
             <span className="text-gray-700">{formData.icdPrimer}</span>
           </div>
           {formData.icdSekunder1 && (
@@ -107,44 +91,30 @@ export default function ResultTable({ results, formData }: ResultTableProps) {
         </div>
       </div>
 
+      {/* Tabel hasil prediksi */}
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">
           <thead>
             <tr>
-              <th
-                scope="col"
-                className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              >
+              <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Kategori Biaya
               </th>
-              <th
-                scope="col"
-                className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              >
+              <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Nilai Prediksi
               </th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {costCategories.map((category) => (
-              <tr key={String(category.id)}>
+              <tr key={category.id}>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                   {category.label}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {formatIDR(category.value)}
+                  {formatIDR(results[category.id])}
                 </td>
               </tr>
             ))}
-
-            <tr className="bg-blue-50">
-              <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900">
-                Total Biaya
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900">
-                {formatIDR(totalBiaya)}
-              </td>
-            </tr>
           </tbody>
         </table>
       </div>

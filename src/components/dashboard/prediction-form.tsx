@@ -1,6 +1,6 @@
 // components/dashboard/prediction-form.tsx
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";
-import { FormData } from "@/app/dashboard/page";
+import { FormData } from "@/types/predict";
 
 interface PredictionFormProps {
   onPredict: (formData: FormData) => void;
@@ -119,24 +119,10 @@ export default function PredictionForm({ onPredict }: PredictionFormProps) {
     }
   };
 
-  // Data untuk dropdown lama rawat
-  const lamaRawatOptions: OptionType[] = [
-    { value: "1", label: "1 hari" },
-    { value: "2", label: "2 hari" },
-    { value: "3", label: "3 hari" },
-    { value: "4", label: "4 hari" },
-    { value: "5", label: "5 hari" },
-    { value: "6", label: "6 hari" },
-    { value: "7", label: "7 hari" },
-    { value: "8+", label: "8+ hari" },
-  ];
-
   // Data untuk dropdown tipe pasien
   const tipePasienOptions: OptionType[] = [
-    { value: "BPJS", label: "BPJS" },
-    { value: "Asuransi", label: "Asuransi" },
-    { value: "Umum", label: "Umum" },
-    { value: "Korporasi", label: "Korporasi" },
+    { value: "IN", label: "IN" },
+    { value: "EMG", label: "EMG" },
   ];
 
   return (

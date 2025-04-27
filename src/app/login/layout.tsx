@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
   title: "Login ",
@@ -14,6 +15,7 @@ export default function LoginLayout({
     <div className="min-h-screen flex flex-col bg-gray-50">
       {/* <Header /> */}
       <div className="flex flex-1">
+        <Toaster position="top-right" />
         <main className="flex-1 p-6 overflow-y-auto">{children}</main>
       </div>
       {/* <Footer /> */}

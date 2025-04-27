@@ -1,27 +1,34 @@
-// app/dashboard/page.tsx
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Link from "next/link";
 import PredictionForm from "@/components/dashboard/prediction-form";
 import ResultTable from "@/components/dashboard/result-table";
+import { toast } from "react-hot-toast";
 
-// Definisi tipe untuk hasil prediksi
-export interface PredictionResults {
-  administrasi: number;
-  konsultasiDokter: number;
-  laboratorium: number;
+// Tipe data response asli dari API
+export interface PredictResults {
+  non_Bedah: number;
+  bedah: number;
+  konsul_Dokter: number;
+  konsul_Tenaga_Ahli: number;
+  tind_Keperawatan: number;
+  penunjang: number;
   radiologi: number;
-  obatObatan: number;
-  kamarRawat: number;
-  tindakanMedis: number;
-  perawatan: number;
-  fisioterapi: number;
-  alatKesehatan: number;
-  medicalCheckup: number;
-  lainLain: number;
+  laboratorium: number;
+  pelayanan_Darah: number;
+  rehabilitasi: number;
+  akomodasi: number;
+  akomodasi_Intensif: number;
+  bmhp: number;
+  alat_Medis: number;
+  obat: number;
+  obat_Kronis: number;
+  obat_Kemoterapi: number;
+  alkes: number;
+  total_Cost: number;
 }
 
-// Definisi tipe untuk form data
 export interface FormData {
   icdPrimer: string;
   icdSekunder1: string;
@@ -32,46 +39,139 @@ export interface FormData {
 }
 
 export default function Dashboard() {
-  const [predictionResults, setPredictionResults] =
-    useState<PredictionResults | null>(null);
+  const [predictResults, setPredictResults] = useState<PredictResults | null>(
+    null
+  );
   const [submittedFormData, setSubmittedFormData] = useState<FormData | null>(
     null
   );
+  const [loading, setLoading] = useState(false);
+  const [savingHistory, setSavingHistory] = useState(false);
 
-  const handlePredict = (formData: FormData) => {
-    // Di sini nantinya akan ada logika untuk memanggil API prediksi
+  const handlePredict = async (formData: FormData) => {
     console.log("Form Data for prediction:", formData);
-
-    // Save the submitted form data
     setSubmittedFormData(formData);
+    setLoading(true);
 
-    // Untuk saat ini kita hanya menggunakan data dummy
-    setPredictionResults({
-      administrasi: 250000,
-      konsultasiDokter: 750000,
-      laboratorium: 1200000,
-      radiologi: 850000,
-      obatObatan: 2300000,
-      kamarRawat: 1800000,
-      tindakanMedis: 3500000,
-      perawatan: 950000,
-      fisioterapi: 450000,
-      alatKesehatan: 750000,
-      medicalCheckup: 650000,
-      lainLain: 350000,
-    });
+    try {
+      const response = await fetch("http://localhost:5059/api/CpCost/predict", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ICDPrimer: formData.icdPrimer,
+          ICDSekunder1: formData.icdSekunder1,
+          ICDSekunder2: formData.icdSekunder2,
+          ICDSekunder3: formData.icdSekunder3,
+          LamaRawat: formData.lamaRawat,
+          TipePasien: formData.tipePasien,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Gagal memanggil API prediction");
+      }
+
+      const data: PredictResults = await response.json();
+      setPredictResults(data);
+
+      // Simpan ke localStorage
+      localStorage.setItem("predictResults", JSON.stringify(data));
+      localStorage.setItem("submittedFormData", JSON.stringify(formData));
+
+      // Simpan hasil ke database
+      await savePredictionToDatabase(formData, data);
+    } catch (error) {
+      console.error("Error during prediction:", error);
+      toast.error("Gagal melakukan prediksi");
+    } finally {
+      setLoading(false);
+    }
   };
+
+  const savePredictionToDatabase = async (
+    formData: FormData,
+    results: PredictResults
+  ) => {
+    setSavingHistory(true);
+    try {
+      const response = await fetch("/api/prediction/save", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          formData,
+          results,
+        }),
+        // Cookie otomatis dikirim dengan setiap request
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Gagal menyimpan data prediksi");
+      }
+
+      const data = await response.json();
+      console.log("Prediction saved:", data);
+      toast.success("Data prediksi berhasil disimpan");
+    } catch (error) {
+      console.error("Error saving prediction history:", error);
+      toast.error("Gagal menyimpan data prediksi");
+    } finally {
+      setSavingHistory(false);
+    }
+  };
+
+  useEffect(() => {
+    const savedResults = localStorage.getItem("predictResults");
+    const savedFormData = localStorage.getItem("submittedFormData");
+
+    if (savedResults && savedFormData) {
+      setPredictResults(JSON.parse(savedResults));
+      setSubmittedFormData(JSON.parse(savedFormData));
+    }
+  }, []);
 
   return (
     <>
       <PredictionForm onPredict={handlePredict} />
+      {loading && (
+        <div className="mt-8 text-center text-black">
+          <p>Loading prediction...</p>
+        </div>
+      )}
 
-      {predictionResults && submittedFormData && (
+      {savingHistory && (
+        <div className="mt-2 text-center text-green-600">
+          <p>Menyimpan data ke riwayat prediksi...</p>
+        </div>
+      )}
+
+      {predictResults && submittedFormData && !loading && (
         <div className="mt-8 transition-all duration-300 ease-in-out">
-          <ResultTable
-            results={predictionResults}
-            formData={submittedFormData}
-          />
+          <ResultTable results={predictResults} formData={submittedFormData} />
+
+          <div className="mt-8 text-center">
+            <Link
+              href="/dashboard/history"
+              className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
+            >
+              Lihat History Prediksi
+            </Link>
+          </div>
+        </div>
+      )}
+
+      {!predictResults && !loading && (
+        <div className="mt-8 flex justify-center">
+          <Link
+            href="/dashboard/history"
+            className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
+          >
+            Lihat History Prediksi
+          </Link>
         </div>
       )}
     </>

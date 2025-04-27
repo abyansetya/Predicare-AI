@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import { decrypt } from "@/lib/session";
 import { redirect } from "next/navigation";
 import Header from "@/components/header";
-import { SessionPayload } from "@/lib/session";
+import { Toaster } from "react-hot-toast";
 
 export default async function DashboardLayout({
   children,
@@ -39,7 +39,7 @@ export default async function DashboardLayout({
     return (
       <div className="min-h-screen bg-gray-50">
         {user && <Header username={username} />}
-
+        <Toaster position="top-right" />
         <main className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
           {children}
         </main>

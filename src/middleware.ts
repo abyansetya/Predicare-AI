@@ -11,8 +11,19 @@ export default async function middleware(req: NextRequest) {
   const isPublicRoutes = publicRoutes.includes(path);
 
   const getCookie = cookies(); // ⛔ tidak perlu await, ini bukan async
-  const cookie = req.cookies.get("session")?.value; // ✅ pakai req.cookies langsung
-  const session = await decrypt(cookie);
+  // const cookie = req.cookies.get("session")?.value; // ✅ pakai req.cookies langsung
+
+  let session = null;
+  try {
+    // Get the cookie and decrypt it if it exists
+    const cookie = req.cookies.get("session")?.value;
+    if (cookie) {
+      session = await decrypt(cookie);
+    }
+  } catch (error) {
+    console.error("Error decrypting session:", error);
+    // Continue with null session on error
+  }
 
   // ⛔ Blokir akses ke "/"
   if (path === "/") {

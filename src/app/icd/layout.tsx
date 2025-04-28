@@ -1,11 +1,11 @@
-// app/dashboard/layout.tsx
+// app/icd/layout.tsx
 import { cookies } from "next/headers";
 import { decrypt } from "@/lib/session";
 import { redirect } from "next/navigation";
 import Header from "@/components/header";
 import { SessionPayload } from "@/lib/session";
 
-export default async function DashboardLayout({
+export default async function IcdLayout({
   children,
 }: {
   children: React.ReactNode;

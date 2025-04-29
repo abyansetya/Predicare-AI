@@ -99,15 +99,15 @@ export default function ICDPage() {
         throw new Error("Failed to fetch ICDs");
       }
 
-      const data = await response.json();
+      const result = await response.json();
 
       // Check if data.icds exists and is an array
-      if (!data.icds || !Array.isArray(data.icds)) {
-        console.error("Invalid ICD data format:", data);
+      if (!result.data || !Array.isArray(result.data)) {
+        console.error("Invalid ICD data format:", result);
         throw new Error("Invalid data format received from server");
       }
 
-      setIcds(data.icds);
+      setIcds(result.data);
     } catch (error) {
       console.error("Error fetching ICDs:", error);
       setError("Failed to load ICD data. Please try again.");
@@ -309,7 +309,7 @@ export default function ICDPage() {
   };
 
   return (
-    <div className="bg-white shadow rounded-lg p-6 text-black">
+    <div className="bg-white shadow rounded-lg p-6 ">
       <Toaster position="top-right" />
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-black">Kode ICD</h1>

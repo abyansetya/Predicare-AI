@@ -27,7 +27,7 @@ export async function GET() {
 
     return NextResponse.json({
       success: true,
-      icds,
+      data: icds,
     });
   } catch (error) {
     console.error("Error fetching ICD data:", error);

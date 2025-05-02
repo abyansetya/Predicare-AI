@@ -4,6 +4,12 @@ import { decrypt } from "@/lib/session";
 import { redirect } from "next/navigation";
 import Header from "@/components/header";
 import { Toaster } from "react-hot-toast";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Predicare",
+  description: "Prediksi biaya perawatan RS Kariadi",
+};
 
 export default async function DashboardLayout({
   children,
@@ -40,7 +46,7 @@ export default async function DashboardLayout({
       <div className="min-h-screen bg-gray-50">
         {user && <Header username={username} />}
         <Toaster position="top-right" />
-        <main className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <main className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 text-black">
           {children}
         </main>
       </div>
@@ -48,7 +54,7 @@ export default async function DashboardLayout({
   } catch (error) {
     console.error("Error in DashboardLayout:", error);
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center ">
         <p>Terjadi kesalahan saat memuat dashboard.</p>
       </div>
     );

@@ -143,6 +143,17 @@ export default function Dashboard() {
         </div>
       )}
 
+      {predictResults && submittedFormData && !loading && (
+        <div className="text-center flex justify-end">
+          <Link
+            href="/dashboard/history"
+            className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gray-600 hover:bg-gray-500"
+          >
+            Lihat History Prediksi
+          </Link>
+        </div>
+      )}
+
       {savingHistory && (
         <div className="mt-2 text-center text-green-600">
           <p>Menyimpan data ke riwayat prediksi...</p>
@@ -152,15 +163,6 @@ export default function Dashboard() {
       {predictResults && submittedFormData && !loading && (
         <div className="mt-8 transition-all duration-300 ease-in-out">
           <ResultTable results={predictResults} formData={submittedFormData} />
-
-          <div className="mt-8 text-center">
-            <Link
-              href="/dashboard/history"
-              className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
-            >
-              Lihat History Prediksi
-            </Link>
-          </div>
         </div>
       )}
 

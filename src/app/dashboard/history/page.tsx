@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
@@ -133,8 +133,8 @@ export default function HistoryPage() {
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {history.map((item, index) => (
-                <>
-                  <tr key={item.id} className="hover:bg-gray-50">
+                <React.Fragment key={item.id}>
+                  <tr className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {index + 1}
                     </td>
@@ -289,7 +289,7 @@ export default function HistoryPage() {
                       </td>
                     </tr>
                   )}
-                </>
+                </React.Fragment>
               ))}
             </tbody>
           </table>

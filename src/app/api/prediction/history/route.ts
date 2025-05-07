@@ -39,7 +39,8 @@ export async function GET() {
         lama_rawat, 
         tipe_pasien, 
         total_cost, 
-        created_at 
+        created_at,
+        kode_rujukan
       FROM 
         prediction_history 
       WHERE 

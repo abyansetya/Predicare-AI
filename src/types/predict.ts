@@ -46,6 +46,7 @@ export interface PredictResults {
   total_Cost: number;
 }
 
+
 export interface FormData {
   icdPrimer: string;
   icdSekunder1: string;
@@ -53,4 +54,5 @@ export interface FormData {
   icdSekunder3: string;
   lamaRawat: string;
   tipePasien: string;
+  kodeRujukan: string;
 }

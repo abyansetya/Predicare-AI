@@ -69,9 +69,10 @@ export async function POST(request: Request) {
         obat_kronis,
         obat_kemoterapi,
         alkes,
-        total_cost
+        total_cost,
+        kode_rujukan
       ) VALUES (
-        $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26
+        $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27
       ) RETURNING id`;
 
     const values = [
@@ -101,6 +102,7 @@ export async function POST(request: Request) {
       results.obat_Kemoterapi,
       results.alkes,
       results.total_Cost,
+      formData.kodeRujukan,
     ];
 
     const result = await db.insert(query, values);

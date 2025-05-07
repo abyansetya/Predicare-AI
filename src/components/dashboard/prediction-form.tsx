@@ -24,6 +24,7 @@ export default function PredictionForm({ onPredict }: PredictionFormProps) {
     icdSekunder3: "",
     lamaRawat: "",
     tipePasien: "",
+    kodeRujukan: "",
   });
 
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>(
@@ -123,6 +124,23 @@ export default function PredictionForm({ onPredict }: PredictionFormProps) {
   const tipePasienOptions: OptionType[] = [
     { value: "IN", label: "IN" },
     { value: "EMG", label: "EMG" },
+  ];
+
+  //Data untuk dropdown kode rujukan
+  const kodeRujukanOptions: OptionType[] = [
+    { value: "A", label: "A" },
+    { value: "AR", label: "AR" },
+    { value: "AS", label: "AS" },
+    { value: "B", label: "B" },
+    { value: "C", label: "C" },
+    { value: "D", label: "D" },
+    { value: "DK", label: "DK" },
+    { value: "DU", label: "DU" },
+    { value: "E", label: "E" },
+    { value: "F", label: "F" },
+    { value: "G", label: "G" },
+    { value: "H", label: "H" },
+    { value: "X", label: "X" },
   ];
 
   return (
@@ -291,6 +309,31 @@ export default function PredictionForm({ onPredict }: PredictionFormProps) {
             </select>
             {errors.tipePasien && (
               <p className="mt-1 text-sm text-red-500">{errors.tipePasien}</p>
+            )}
+          </div>
+
+          <div>
+            <label
+              htmlFor="kodeRujukan"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
+              Kode Rujukan
+            </label>
+            <select
+              id="kodeRujukan"
+              className={`w-full text-black p-2 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500`}
+              value={formData.kodeRujukan}
+              onChange={handleChange}
+            >
+              <option value="">Pilih Kode Rujukan</option>
+              {kodeRujukanOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+            {errors.kodeRujukan && (
+              <p className="mt-1 text-sm text-red-500">{errors.kodeRujukan}</p>
             )}
           </div>
         </div>

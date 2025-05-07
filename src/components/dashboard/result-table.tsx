@@ -88,6 +88,10 @@ export default function ResultTable({ results, formData }: ResultTableProps) {
             <span className="font-medium">Tipe Pasien:</span>{" "}
             {formData.tipePasien}
           </div>
+          <div>
+            <span className="font-medium">Kode Rujukan:</span>{" "}
+            {formData.kodeRujukan}
+          </div>
         </div>
       </div>
 

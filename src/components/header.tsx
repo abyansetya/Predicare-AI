@@ -57,16 +57,7 @@ export default function Header({ username }: { username?: string }) {
             >
               ICD
             </Link>
-            <Link
-              href="/medicine"
-              className={`text-white font-medium ${
-                isActive("/medicine")
-                  ? "border-b-2 border-white pb-1"
-                  : "hover:border-b-2 hover:border-white/70 hover:pb-1 transition-all"
-              }`}
-            >
-              Medicine
-            </Link>
+
           </nav>
 
           <div className="relative">

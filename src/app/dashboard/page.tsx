@@ -327,7 +327,7 @@ function ClassificationResultTable({
                   .filter((proc) => proc.probability > 0)
                   .map((proc, procIdx) => (
                     <li key={`drug-proc-${idx}-${procIdx}`} className="text-sm">
-                      {proc.name} ({(proc.probability * 100).toFixed(0)}%)
+                      {proc.name}
                     </li>
                   ))}
               </ul>
@@ -350,7 +350,7 @@ function ClassificationResultTable({
                       key={`radio-proc-${idx}-${procIdx}`}
                       className="text-sm"
                     >
-                      {proc.name} ({(proc.probability * 100).toFixed(0)}%)
+                      {proc.name}
                     </li>
                   ))}
               </ul>
@@ -370,7 +370,7 @@ function ClassificationResultTable({
                   .filter((proc) => proc.probability > 0)
                   .map((proc, procIdx) => (
                     <li key={`lab-proc-${idx}-${procIdx}`} className="text-sm">
-                      {proc.name} ({(proc.probability * 100).toFixed(0)}%)
+                      {proc.name}
                     </li>
                   ))}
               </ul>

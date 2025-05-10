@@ -100,18 +100,6 @@ export default function Login() {
 
           <SubmitButton />
         </form>
-
-        <div className="mt-6 text-center text-sm text-gray-600">
-          <p>
-            Don't have an account?{" "}
-            <Link
-              href="/register"
-              className="font-medium text-blue-600 hover:text-blue-500"
-            >
-              Sign up for free
-            </Link>
-          </p>
-        </div>
       </div>
     </div>
   );
